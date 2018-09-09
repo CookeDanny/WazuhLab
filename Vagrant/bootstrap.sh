@@ -60,6 +60,7 @@ install_Wazuh() {
  systemctl daemon-reload
  systemctl enable filebeat.service
  systemctl start filebeat.service
+}
 
 install_python() {
   # Install Python 3.6.4
