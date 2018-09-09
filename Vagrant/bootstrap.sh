@@ -85,6 +85,7 @@ main() {
   apt_install_prerequisites
   fix_eth1_static_ip
   install_python
+  install_Wazuh
 }
 
 main
