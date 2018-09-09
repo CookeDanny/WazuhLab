@@ -1,15 +1,10 @@
 #! /bin/bash
 
-#install_mongo_db_apt_key() {
-  # Install key and apt source for MongoDB
-#  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
-#  echo "deb http://repo.mongodb.org/apt/ubuntu $(lsb_release -sc)/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
-#}
 
 apt_install_prerequisites() {
   # Install prerequisites and useful tools
   apt-get update
-  apt-get install -y jq whois build-essential git docker docker-compose unzip mongodb-org
+  apt-get install -y jq whois build-essential git unzip
 }
 
 fix_eth1_static_ip() {
@@ -17,19 +12,19 @@ fix_eth1_static_ip() {
   # that eth1 has a static IP set. We workaround this by setting a static DHCP lease.
   echo -e 'interface "eth1" {
     send host-name = gethostname();
-    send dhcp-requested-address 192.168.38.105;
+    send dhcp-requested-address 192.168.38.5;
   }' >> /etc/dhcp/dhclient.conf
   service networking restart
   # Fix eth1 if the IP isn't set correctly
   ETH1_IP=$(ifconfig eth1 | grep 'inet addr' | cut -d ':' -f 2 | cut -d ' ' -f 1)
-  if [ "$ETH1_IP" != "192.168.38.105" ]; then
+  if [ "$ETH1_IP" != "192.168.38.5" ]; then
     echo "Incorrect IP Address settings detected. Attempting to fix."
     ifdown eth1
     ip addr flush dev eth1
     ifup eth1
     ETH1_IP=$(ifconfig eth1 | grep 'inet addr' | cut -d ':' -f 2 | cut -d ' ' -f 1)
-    if [ "$ETH1_IP" == "192.168.38.105" ]; then
-      echo "The static IP has been fixed and set to 192.168.38.105"
+    if [ "$ETH1_IP" == "192.168.38.5" ]; then
+      echo "The static IP has been fixed and set to 192.168.38.5"
     else
       echo "Failed to fix the broken static IP for eth1. Exiting because this will cause problems with other VMs."
       exit 1
