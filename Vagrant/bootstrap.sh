@@ -43,14 +43,12 @@ install_Wazuh() {
  apt-get update
  apt-get install wazuh-manager
  systemctl status wazuh-manager
- service wazuh-manager status
  
  #Install Node.js
  curl -sL https://deb.nodesource.com/setup_8.x | bash -
  apt-get install nodejs
  apt-get install wazuh-api
  systemctl status wazuh-api
- service wazuh-api status
  
  #Install Filebeat
  curl -s https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
