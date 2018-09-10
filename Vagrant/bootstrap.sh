@@ -55,7 +55,7 @@ install_Wazuh() {
  echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | tee /etc/apt/sources.list.d/elastic-6.x.list
  apt-get update
  apt-get install filebeat=6.4.0
- curl -so /etc/filebeat/filebeat.yml https://github.com/m4g1cm4n/WazuhLab/Vagrant/filebeat.yml
+ curl -so /etc/filebeat/filebeat.yml https://raw.githubusercontent.com/m4g1cm4n/WazuhLab/master/Vagrant/filebeat.yml
  systemctl daemon-reload
  systemctl enable filebeat.service
  systemctl start filebeat.service
