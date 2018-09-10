@@ -99,6 +99,7 @@ install_elastic() {
   curl https://raw.githubusercontent.com/wazuh/wazuh/3.6/extensions/elasticsearch/wazuh-elastic6-template-alerts.json | curl -XPUT 'http://localhost:9200/_template/wazuh' -H 'Content-Type: application/json' -d @-
   
   #Install Logstash
+  apt-get install oracle-java8-installer #Hopefully will fix JAVA_HOME error
   apt-get install logstash=1:6.4.0-1
 
   #Add Wazuh config for Logstash
