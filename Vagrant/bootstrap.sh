@@ -79,7 +79,10 @@ install_elastic() {
   #Install Java JRE 8
   add-apt-repository ppa:webupd8team/java
   apt-get update
-  apt-get install oracle-java8-installer
+  echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+  echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
+  apt-get install -y oracle-java8-installer
+ 
 
   #Add Elastic Repo and GPG Key
   apt-get install curl apt-transport-https
@@ -99,7 +102,6 @@ install_elastic() {
   curl https://raw.githubusercontent.com/wazuh/wazuh/3.6/extensions/elasticsearch/wazuh-elastic6-template-alerts.json | curl -XPUT 'http://localhost:9200/_template/wazuh' -H 'Content-Type: application/json' -d @-
   
   #Install Logstash
-  apt-get install oracle-java8-installer #Hopefully will fix JAVA_HOME error
   apt-get install logstash=1:6.4.0-1
 
   #Add Wazuh config for Logstash
