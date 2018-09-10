@@ -36,7 +36,7 @@ install_Wazuh() {
  #Install Wazuh Server
  echo "Installing Wazuh Server"
  apt-get update
- apt-get install curl,apt-transport-https,lsb-release
+ apt-get install curl apt-transport-https lsb-release
  if [ ! -f /usr/bin/python ]; then ln -s /usr/bin/python3 /usr/bin/python; fi
  curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | apt-key add -
  echo "deb https://packages.wazuh.com/3.x/apt/ stable main" | tee -a /etc/apt/sources.list.d/wazuh.list
