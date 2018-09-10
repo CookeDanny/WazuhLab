@@ -11,6 +11,6 @@ filebeat:
 output:
  logstash:
    # The Logstash hosts
-   hosts: ["192.168.38.5:5000"]
+   hosts: ["localhost:5000"]
 #   ssl:
 #     certificate_authorities: ["/etc/filebeat/logstash.crt"]
