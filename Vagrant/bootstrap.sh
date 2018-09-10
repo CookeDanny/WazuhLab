@@ -68,9 +68,9 @@ install_python() {
   sudo echo "Installing Python v3.6.4..."
   sudo wget https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz
   sudo tar -xvf Python-3.6.4.tgz
-  sudo cd Python-3.6.4 || exit
+  cd Python-3.6.4 || exit
   sudo ./configure && make && make install
-  sudo cd /home/vagrant || exit
+  cd /home/vagrant || exit
   else
   sudo echo "Python seems to be downloaded already.. Skipping."
   fi
