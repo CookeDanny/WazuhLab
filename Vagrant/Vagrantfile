@@ -3,7 +3,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "logger" do |cfg|
     cfg.vm.box = "bento/ubuntu-16.04"
     cfg.vm.hostname = "wazuh"
-    config.vm.provision :shell, :privileged => false, :path: => "bootstrap.sh"
+    config.vm.provision :shell, :privileged => false, :path => "bootstrap.sh"
     #config.vm.provision :shell, :privileged => false, :path => "filename"
     cfg.vm.network :private_network, ip: "192.168.38.5", gateway: "192.168.38.1", dns: "8.8.8.8"
 
