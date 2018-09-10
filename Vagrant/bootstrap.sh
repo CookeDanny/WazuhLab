@@ -76,9 +76,60 @@ install_python() {
   fi
 }
 
+install_elastic() {
+  #Install Java JRE 8
+  add-apt-repository ppa:webupd8team/java
+  apt-get update
+  apt-get install oracle-java8-installer
 
-
+  #Add Elastic Repo and GPG Key
+  apt-get install curl apt-transport-https
+  curl -s https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
+  echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | tee /etc/apt/sources.list.d/elastic-6.x.list
+  apt-get update
   
+  #Install ElasticSearch
+  apt-get install elasticsearch=6.4.0
+  
+  #Install & Start Service
+  systemctl daemon-reload
+  systemctl enable elasticsearch.service
+  systemctl start elasticsearch.service
+
+  #Install Wazuh Template for ElasticSerach
+  curl https://raw.githubusercontent.com/wazuh/wazuh/3.6/extensions/elasticsearch/wazuh-elastic6-template-alerts.json | curl -XPUT 'http://localhost:9200/_template/wazuh' -H 'Content-Type: application/json' -d @-
+  
+  #Install Logstash
+  apt-get install logstash=1:6.4.0-1
+
+  #Add Wazuh config for Logstash
+  curl -so /etc/logstash/conf.d/01-wazuh.conf https://raw.githubusercontent.com/wazuh/wazuh/3.6/extensions/logstash/01-wazuh-local.conf
+  
+  #Add user permissions to Ossec logs
+  usermod -a -G ossec logstash
+  
+  #Install & Search Logstash Service
+  systemctl daemon-reload
+  systemctl enable logstash.service
+  systemctl start logstash.service
+
+  #Install Kibana
+  apt-get install kibana=6.4.0
+  
+  #Install Wazuh app Plugin for Kibana
+  export NODE_OPTIONS="--max-old-space-size=3072"
+  sudo -u kibana /usr/share/kibana/bin/kibana-plugin install https://packages.wazuh.com/wazuhapp/wazuhapp-3.6.1_6.4.0.zip
+
+  #Install & Start Kibana Service
+  systemctl daemon-reload
+  systemctl enable kibana.service
+  systemctl start kibana.service
+  
+  #Disable Elasticsearch repo to prevent updates breaking app
+  sed -i "s/^deb/#deb/" /etc/apt/sources.list.d/elastic-6.x.list
+  apt-get update
+  
+}
 
 main() {
   
@@ -86,6 +137,7 @@ main() {
   fix_eth1_static_ip
   install_python
   install_Wazuh
+  install_elastic
 }
 
 main
