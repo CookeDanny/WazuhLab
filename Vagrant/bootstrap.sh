@@ -3,8 +3,8 @@
 
 apt_install_prerequisites() {
   # Install prerequisites and useful tools
-  apt-get update
-  apt-get install -y jq whois build-essential git unzip
+  sudo apt-get update
+  sudo apt-get install -y jq whois build-essential git unzip
 }
 
 fix_eth1_static_ip() {
