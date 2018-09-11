@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
 
-  config.vm.define "logger" do |cfg|
+  config.vm.define "wazuh" do |cfg|
     cfg.vm.box = "bento/ubuntu-16.04"
     cfg.vm.hostname = "wazuh"
     config.vm.provision :shell, :privileged => true, :path => "bootstrap.sh"
